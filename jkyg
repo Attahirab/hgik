@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pomodoro Timer</title>
+<style>
+  body { font-family: Arial; background: #111; color: #fff; text-align: center; padding: 100px; }
+  #time { font-size: 80px; margin: 30px; }
+  button { padding: 15px 30px; margin: 10px; font-size: 18px; border: none; border-radius: 50px; cursor: pointer; }
+  .work { background: #f44; }
+  .break { background: #4f4; }
+</style>
+</head>
+<body>
+<h1>🍅 Pomodoro</h1>
+<div id="time">25:00</div>
+<button onclick="startTimer()">Start</button>
+<button onclick="resetTimer()">Reset</button>
+
+<script>
+let timeLeft = 25 * 60;
+let timerId = null;
+const display = document.getElementById('time');
+
+function updateDisplay() {
+  const min = Math.floor(timeLeft / 60);
+  const sec = timeLeft % 60;
+  display.textContent = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+}
+
+function startTimer() {
+  if (timerId) return;
+  timerId = setInterval(() => {
+    timeLeft--;
+    updateDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerId);
+      alert("Time's up! Take a break.");
+      timerId = null;
+    }
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timerId);
+  timeLeft = 25 * 60;
+  updateDisplay();
+  timerId = null;
+}
+updateDisplay();
+</script>
+</body>
+</html>
